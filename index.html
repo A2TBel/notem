@@ -552,8 +552,10 @@ function aplicar(v){
   var idx = -1;
   for(var i=0;i<l.length;i++){ if(norm(l[i]) === norm(nombre)){ idx = i; break; } }
   if(idx >= 0){
-    var item = l.splice(idx, 1)[0];
-    l.splice(v - 1, 0, item);
+    // Intercambio: solo cambian de sitio la persona forzada y la que estaba en esa posición
+    var tmp = l[v - 1];
+    l[v - 1] = l[idx];
+    l[idx] = tmp;
   } else {
     while(l.length < v) l.push('');
     l[v - 1] = nombre;
