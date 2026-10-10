@@ -11,28 +11,78 @@
   :root{
     --bar:#48474c; --btn:#2c2b30;
     --bar2:#39383d; --btn2:#232227;
-    --bg:#17161b; --txt:#e8eaed; --muted:#9aa0a6;
+    --bg:#17161b; --txt:#e8eaed; --muted:#9aa0a6; --line:#5f6368;
   }
   *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  [hidden]{display:none!important}
   html,body{margin:0;background:var(--bg);color:var(--txt);
-    font-family:"Google Sans",Roboto,"Segoe UI",system-ui,sans-serif;touch-action:pan-y}
+    font-family:"Google Sans",Roboto,"Segoe UI",system-ui,sans-serif;
+    touch-action:pan-y;overscroll-behavior-y:contain}
+  button{font:inherit;color:inherit}
+  .btn{width:41px;height:41px;border-radius:14px;border:0;background:var(--btn);color:#e3e3e8;
+    display:grid;place-items:center;padding:0;flex:none}
+  .btn svg{width:22px;height:22px;fill:currentColor}
 
+  /* ---------- INICIO ---------- */
+  .hhead{position:fixed;top:0;left:0;right:0;padding:10px 12px 8px;background:var(--bg);z-index:5}
+  .pill{display:flex;align-items:center;height:48px;border-radius:24px;background:var(--btn);padding:0 6px;gap:4px}
+  .pill .ib{width:40px;height:40px;border:0;background:none;display:grid;place-items:center;padding:0;color:#e3e3e8;flex:none}
+  .pill svg{width:24px;height:24px;fill:currentColor}
+  .pill input{flex:1;min-width:0;background:none;border:0;outline:0;color:var(--txt);font:400 16px "Google Sans",Roboto,system-ui,sans-serif}
+  .pill input::placeholder{color:var(--muted)}
+  #hmain{padding:72px 12px 120px}
+  .sec{font-size:11px;letter-spacing:.8px;color:var(--muted);margin:14px 4px 8px;text-transform:uppercase}
+  .grid{display:flex;gap:8px;align-items:flex-start}
+  .col{flex:1;min-width:0;display:flex;flex-direction:column;gap:8px}
+  .card{border:1px solid var(--line);border-radius:10px;padding:12px;overflow:hidden;cursor:pointer}
+  .card .ct{font:500 16px/22px "Google Sans",Roboto,system-ui,sans-serif;margin-bottom:8px;word-break:break-word}
+  .pv{font-size:14px;line-height:20px;max-height:250px;overflow:hidden;word-break:break-word}
+  .pv ol{margin:0;padding-left:22px}
+  .pv ol.sinnum{list-style:none;padding-left:0}
+  .pv li::marker{color:var(--muted)}
+  .pv .tx{white-space:pre-wrap}
+  .pf{display:flex;gap:8px;align-items:flex-start}
+  .pf i{width:13px;height:13px;border:2px solid var(--muted);border-radius:3px;margin-top:3px;flex:none}
+  .pf.hecha{color:var(--muted);text-decoration:line-through}
+  .pf.hecha i{background:var(--muted)}
+  #vacio{color:var(--muted);text-align:center;margin-top:60px;font-size:15px}
+
+  .hbar{position:fixed;left:0;right:0;bottom:0;height:calc(76px + env(safe-area-inset-bottom));
+    padding:0 16px env(safe-area-inset-bottom) 16px;background:var(--bar2);
+    display:flex;align-items:center;gap:8px;z-index:5}
+  .hbar .btn{background:var(--btn2)}
+  .hbar .sp{flex:1}
+  .fab{width:56px;height:56px;border-radius:18px;border:0;background:#f0c24b;color:#3c3000;display:grid;place-items:center;padding:0}
+  .fab svg{width:30px;height:30px;fill:currentColor}
+
+  /* ---------- EDITOR ---------- */
   .top{position:fixed;top:0;left:0;right:0;height:64px;background:var(--bar);
     display:flex;align-items:center;gap:8px;padding:0 12px 0 18px;z-index:5}
   .top .sp{flex:1}
-  .btn{width:41px;height:41px;border-radius:14px;border:0;background:var(--btn);color:#e3e3e8;
-    display:grid;place-items:center;padding:0}
-  .btn svg{width:22px;height:22px;fill:currentColor}
   .back{background:none;width:36px;height:36px;border-radius:50%}
   .back svg{width:26px;height:26px}
-
-  main{padding:78px 20px 110px}
+  #pin .on{display:none}
+  #pin.activo .on{display:block}
+  #pin.activo .off{display:none}
+  main.ed{padding:78px 20px 110px}
   #titulo{display:block;width:100%;background:none;border:0;outline:0;color:var(--txt);
     font:400 24px/32px "Google Sans",Roboto,system-ui,sans-serif;padding:6px 0;margin:0 0 16px}
+  #titulo::placeholder{color:#6f7479}
   #lista{margin:0;padding:0 0 0 36px;list-style:decimal;outline:0;font-size:16px;line-height:21px;
     caret-color:#8ab4f8;word-break:break-word}
   #lista.sinnum{list-style:none;padding-left:0}
   #lista li::marker{color:var(--muted)}
+  #tx{outline:0;font-size:16px;line-height:23px;white-space:pre-wrap;min-height:60vh;caret-color:#8ab4f8;word-break:break-word}
+  #tx:empty::before{content:attr(data-ph);color:#6f7479}
+  .fila{display:flex;align-items:flex-start;gap:6px;padding:2px 0}
+  .cb{width:28px;height:28px;border:0;background:none;display:grid;place-items:center;padding:0;margin-left:-4px;flex:none}
+  .cb i{width:16px;height:16px;border:2px solid var(--muted);border-radius:3px;display:block;position:relative}
+  .fila.hecha .cb i{background:var(--muted)}
+  .fila.hecha .cb i::after{content:"";position:absolute;left:3px;top:0;width:4px;height:8px;border:solid var(--bg);border-width:0 2px 2px 0;transform:rotate(45deg)}
+  .ft{flex:1;min-width:0;outline:0;font-size:16px;line-height:24px;padding:2px 0;word-break:break-word;caret-color:#8ab4f8}
+  .fila.hecha .ft{color:var(--muted);text-decoration:line-through}
+  .addf{display:flex;align-items:center;gap:6px;color:var(--muted);font-size:16px;line-height:24px;padding:4px 0}
+  .addf span{width:28px;margin-left:-4px;text-align:center;font-size:20px}
 
   .bottom{position:fixed;left:0;right:0;bottom:0;height:calc(64px + env(safe-area-inset-bottom));
     padding:0 12px env(safe-area-inset-bottom) 20px;background:var(--bar2);
@@ -40,35 +90,69 @@
   .bottom .btn{background:var(--btn2)}
   .bottom .dim{color:#5f6368}
 
-  /* Capa invisible que recoge los toques cuando el modo secreto esta activo */
+  /* Capa invisible que recoge los toques cuando el modo secreto está activo */
   #ov{position:fixed;inset:0;z-index:20;display:none;touch-action:none;
     background:transparent;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
-  #dbg{position:fixed;left:4px;bottom:70px;z-index:30;font:11px monospace;color:#7CFC00;
+  #dbg{position:fixed;left:4px;bottom:80px;z-index:30;font:11px monospace;color:#7CFC00;
     background:rgba(0,0,0,.6);padding:2px 5px;display:none;pointer-events:none}
 </style>
 </head>
 <body>
 
-<header class="top">
-  <button class="btn back" aria-label="Atrás"><svg viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg></button>
-  <div class="sp"></div>
-  <button class="btn" aria-label="Fijar"><svg viewBox="0 0 24 24"><path d="M14 4v5c0 1.12.37 2.16 1 3H9c.65-.86 1-1.9 1-3V4h4m3-2H7c-.55 0-1 .45-1 1s.45 1 1 1h1v5c0 1.66-1.34 3-3 3v2h5.97v7l1 1 1-1v-7H19v-2c-1.66 0-3-1.34-3-3V4h1c.55 0 1-.45 1-1s-.45-1-1-1z"/></svg></button>
-  <button class="btn" aria-label="Recordatorio"><svg viewBox="0 0 24 24"><path d="M10.01 21.01c0 1.1.89 1.99 1.99 1.99s1.99-.89 1.99-1.99h-3.98zm8.87-4.19V11c0-3.25-2.25-5.97-5.29-6.69v-.72C13.59 2.71 12.88 2 12 2s-1.59.71-1.59 1.59v.72C7.37 5.03 5.12 7.75 5.12 11v5.82L3 18.94V20h18v-1.06l-2.12-2.12zM16 13.01h-3v3h-2v-3H8V11h3V8h2v3h3v2.01z"/></svg></button>
-  <button class="btn" aria-label="Archivar"><svg viewBox="0 0 24 24"><path d="M20.54 5.23l-1.39-1.68C18.88 3.21 18.47 3 18 3H6c-.47 0-.88.21-1.16.55L3.46 5.23C3.17 5.57 3 6.02 3 6.5V19c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V6.5c0-.48-.17-.93-.46-1.27zM12 17.5L6.5 12H10v-2h4v2h3.5L12 17.5zM5.12 5l.81-1h12l.94 1H5.12z"/></svg></button>
-</header>
+<!-- ======================= INICIO ======================= -->
+<div id="vHome">
+  <header class="hhead">
+    <div class="pill">
+      <button class="ib" aria-label="Menú"><svg viewBox="0 0 24 24"><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/></svg></button>
+      <input id="q" type="text" placeholder="Buscar en tus notas" autocomplete="off" spellcheck="false">
+      <button class="ib" id="vista" aria-label="Cambiar vista"><svg viewBox="0 0 24 24"><path d="M20 13H3c-.55 0-1 .45-1 1v6c0 .55.45 1 1 1h17c.55 0 1-.45 1-1v-6c0-.55-.45-1-1-1zm0-10H3c-.55 0-1 .45-1 1v6c0 .55.45 1 1 1h17c.55 0 1-.45 1-1V4c0-.55-.45-1-1-1z"/></svg></button>
+    </div>
+  </header>
+  <main id="hmain">
+    <div class="sec" id="secF">Fijadas</div>
+    <div class="grid" id="gridF"></div>
+    <div class="sec" id="secO">Otras</div>
+    <div class="grid" id="gridO"></div>
+    <div id="vacio" hidden>No hay notas que coincidan</div>
+  </main>
+  <footer class="hbar">
+    <button class="btn" id="nCheck" aria-label="Nueva lista"><svg viewBox="0 0 24 24"><path d="M19 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V5h14v14zM17.99 9l-1.41-1.42-6.59 6.59-2.58-2.57-1.42 1.41 4 3.99z"/></svg></button>
+    <button class="btn" aria-label="Dibujo"><svg viewBox="0 0 24 24"><path d="M7 14c-1.66 0-3 1.34-3 3 0 1.31-1.16 2-2 2 .92 1.22 2.49 2 4 2 2.21 0 4-1.79 4-4 0-1.66-1.34-3-3-3zm13.71-9.37l-1.34-1.34c-.39-.39-1.02-.39-1.41 0L9 12.25 11.75 15l8.96-8.96c.39-.39.39-1.02 0-1.41z"/></svg></button>
+    <button class="btn" aria-label="Audio"><svg viewBox="0 0 24 24"><path d="M12 14c1.66 0 2.99-1.34 2.99-3L15 5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3zm5.3-3c0 3-2.54 5.1-5.3 5.1S6.7 14 6.7 11H5c0 3.41 2.72 6.23 6 6.72V21h2v-3.28c3.28-.48 6-3.3 6-6.72h-1.7z"/></svg></button>
+    <button class="btn" aria-label="Imagen"><svg viewBox="0 0 24 24"><path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/></svg></button>
+    <div class="sp"></div>
+    <button class="fab" id="nTexto" aria-label="Nueva nota"><svg viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg></button>
+  </footer>
+</div>
 
-<main>
-  <input id="titulo" value="Lista" aria-label="Título" autocomplete="off" spellcheck="false">
-  <ol id="lista" contenteditable="true" spellcheck="false"></ol>
-</main>
+<!-- ======================= EDITOR ======================= -->
+<div id="vNota" hidden>
+  <header class="top">
+    <button class="btn back" id="atras" aria-label="Atrás"><svg viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg></button>
+    <div class="sp"></div>
+    <button class="btn" id="pin" aria-label="Fijar">
+      <svg class="off" viewBox="0 0 24 24"><path d="M14 4v5c0 1.12.37 2.16 1 3H9c.65-.86 1-1.9 1-3V4h4m3-2H7c-.55 0-1 .45-1 1s.45 1 1 1h1v5c0 1.66-1.34 3-3 3v2h5.97v7l1 1 1-1v-7H19v-2c-1.66 0-3-1.34-3-3V4h1c.55 0 1-.45 1-1s-.45-1-1-1z"/></svg>
+      <svg class="on" viewBox="0 0 24 24"><path d="M16 9V4h1c.55 0 1-.45 1-1s-.45-1-1-1H7c-.55 0-1 .45-1 1s.45 1 1 1h1v5c0 1.66-1.34 3-3 3v2h5.97v7l1 1 1-1v-7H19v-2c-1.66 0-3-1.34-3-3z"/></svg>
+    </button>
+    <button class="btn" aria-label="Recordatorio"><svg viewBox="0 0 24 24"><path d="M10.01 21.01c0 1.1.89 1.99 1.99 1.99s1.99-.89 1.99-1.99h-3.98zm8.87-4.19V11c0-3.25-2.25-5.97-5.29-6.69v-.72C13.59 2.71 12.88 2 12 2s-1.59.71-1.59 1.59v.72C7.37 5.03 5.12 7.75 5.12 11v5.82L3 18.94V20h18v-1.06l-2.12-2.12zM16 13.01h-3v3h-2v-3H8V11h3V8h2v3h3v2.01z"/></svg></button>
+    <button class="btn" aria-label="Archivar"><svg viewBox="0 0 24 24"><path d="M20.54 5.23l-1.39-1.68C18.88 3.21 18.47 3 18 3H6c-.47 0-.88.21-1.16.55L3.46 5.23C3.17 5.57 3 6.02 3 6.5V19c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V6.5c0-.48-.17-.93-.46-1.27zM12 17.5L6.5 12H10v-2h4v2h3.5L12 17.5zM5.12 5l.81-1h12l.94 1H5.12z"/></svg></button>
+  </header>
 
-<footer class="bottom">
-  <button class="btn" aria-label="Añadir"><svg viewBox="0 0 24 24"><path d="M19 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V5h14v14zm-8-2h2v-4h4v-2h-4V7h-2v4H7v2h4z"/></svg></button>
-  <button class="btn" aria-label="Color"><svg viewBox="0 0 24 24"><path d="M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9c.83 0 1.5-.67 1.5-1.5 0-.39-.15-.74-.39-1.01-.23-.26-.38-.61-.38-.99 0-.83.67-1.5 1.5-1.5H16c2.76 0 5-2.24 5-5 0-4.42-4.03-8-9-8zm-5.5 9c-.83 0-1.5-.67-1.5-1.5S5.67 9 6.5 9 8 9.67 8 10.5 7.33 12 6.5 12zm3-4C8.67 8 8 7.33 8 6.5S8.67 5 9.5 5s1.5.67 1.5 1.5S10.33 8 9.5 8zm5 0c-.83 0-1.5-.67-1.5-1.5S13.67 5 14.5 5s1.5.67 1.5 1.5S15.33 8 14.5 8zm3 4c-.83 0-1.5-.67-1.5-1.5S16.67 9 17.5 9s1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/></svg></button>
-  <button class="btn dim" aria-label="Formato"><svg viewBox="0 0 24 24"><path d="M5 17v2h14v-2H5zm4.5-4.2h5l.9 2.2h2.1L12.75 4h-1.5L6.5 15h2.1l.9-2.2zM12 5.98L13.87 11h-3.74L12 5.98z"/></svg></button>
-  <div style="flex:1"></div>
-  <button class="btn" id="mas" aria-label="Más"><svg viewBox="0 0 24 24"><path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/></svg></button>
-</footer>
+  <main class="ed">
+    <input id="titulo" placeholder="Título" aria-label="Título" autocomplete="off" spellcheck="false">
+    <ol id="lista" contenteditable="true" spellcheck="false" hidden></ol>
+    <div id="checks" hidden></div>
+    <div id="tx" contenteditable="true" spellcheck="false" data-ph="Nota" hidden></div>
+  </main>
+
+  <footer class="bottom">
+    <button class="btn" aria-label="Añadir"><svg viewBox="0 0 24 24"><path d="M19 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V5h14v14zm-8-2h2v-4h4v-2h-4V7h-2v4H7v2h4z"/></svg></button>
+    <button class="btn" aria-label="Color"><svg viewBox="0 0 24 24"><path d="M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9c.83 0 1.5-.67 1.5-1.5 0-.39-.15-.74-.39-1.01-.23-.26-.38-.61-.38-.99 0-.83.67-1.5 1.5-1.5H16c2.76 0 5-2.24 5-5 0-4.42-4.03-8-9-8zm-5.5 9c-.83 0-1.5-.67-1.5-1.5S5.67 9 6.5 9 8 9.67 8 10.5 7.33 12 6.5 12zm3-4C8.67 8 8 7.33 8 6.5S8.67 5 9.5 5s1.5.67 1.5 1.5S10.33 8 9.5 8zm5 0c-.83 0-1.5-.67-1.5-1.5S13.67 5 14.5 5s1.5.67 1.5 1.5S15.33 8 14.5 8zm3 4c-.83 0-1.5-.67-1.5-1.5S16.67 9 17.5 9s1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/></svg></button>
+    <button class="btn dim" aria-label="Formato"><svg viewBox="0 0 24 24"><path d="M5 17v2h14v-2H5zm4.5-4.2h5l.9 2.2h2.1L12.75 4h-1.5L6.5 15h2.1l.9-2.2zM12 5.98L13.87 11h-3.74L12 5.98z"/></svg></button>
+    <div style="flex:1"></div>
+    <button class="btn" id="mas" aria-label="Más"><svg viewBox="0 0 24 24"><path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/></svg></button>
+  </footer>
+</div>
 
 <div id="ov"></div>
 <div id="dbg"></div>
@@ -82,7 +166,7 @@ var CFG = {
   // Persona que se fuerza por defecto (se puede cambiar desde la app, ver instrucciones)
   FORZADO: 'Keanu Reeves',
 
-  // true = la lista sale numerada (1. 2. 3. ...). false = sin números, como la captura original
+  // true = la lista de personas sale numerada (1. 2. 3. ...). false = sin números
   NUMERAR: true,
 
   // Tiempos (milisegundos)
@@ -118,43 +202,264 @@ var LISTA_BASE = [
 ];
 
 /* =====================  ALMACENAMIENTO  ===================== */
-var KEY_LISTA = 'notas_lista_v1', KEY_FORZ = 'notas_forzado_v1';
+var KEY_NOTAS = 'notas_v2', KEY_FORZ = 'notas_forzado_v1', KEY_VIEJA = 'notas_lista_v1';
 function leer(k){ try{ return localStorage.getItem(k); }catch(e){ return null; } }
 function guardar(k,v){ try{ localStorage.setItem(k,v); }catch(e){} }
+function quitar(k){ try{ localStorage.removeItem(k); }catch(e){} }
 
-var lista = null;
-try{ lista = JSON.parse(leer(KEY_LISTA)); }catch(e){}
-if(!Array.isArray(lista) || lista.length === 0) lista = LISTA_BASE.slice();
-
-/* =====================  NOTA (aspecto normal)  ===================== */
-var ol = document.getElementById('lista');
-var ov = document.getElementById('ov');
-var dbgEl = document.getElementById('dbg');
-if(!CFG.NUMERAR) ol.classList.add('sinnum');
-
-function render(){
-  ol.innerHTML = '';
-  for(var i=0;i<lista.length;i++){
-    var li = document.createElement('li');
-    li.textContent = lista[i];
-    ol.appendChild(li);
-  }
+function $(id){ return document.getElementById(id); }
+function crear(tag, cls, txt){
+  var e = document.createElement(tag);
+  if(cls) e.className = cls;
+  if(txt !== undefined) e.textContent = txt;
+  return e;
 }
-render();
+function norm(s){ return String(s).toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').trim(); }
 
-ol.addEventListener('input', function(){
-  var arr = [], items = ol.querySelectorAll('li');
-  for(var i=0;i<items.length;i++) arr.push(items[i].textContent);
-  if(arr.length){ lista = arr; guardar(KEY_LISTA, JSON.stringify(lista)); }
-});
+/* =====================  NOTAS  ===================== */
+function chk(t){ return { t:t, d:false }; }
 
+function notasIniciales(limpio){
+  var ahora = Date.now(), H = 3600000;
+  var personas = LISTA_BASE.slice();
+  if(!limpio){
+    try{
+      var v = JSON.parse(leer(KEY_VIEJA));
+      if(Array.isArray(v) && v.length) personas = v;
+    }catch(e){}
+  }
+  return [
+    { id:'compra', titulo:'Compra', tipo:'check', fijada:false, mod:ahora - 3*H,
+      items:[ chk('4 tomates'), chk('5 aceitunas (de las buenas, si quedan)'), chk('10 naranjas'),
+              chk('un bote de leche (la de siempre)'), chk('3 yogures griegos'), chk('pan del que cruje'),
+              chk('café que se nos acaba'), chk('unas cuantas nueces'), chk('papel de cocina') ] },
+    { id:'magia', titulo:'Lista', tipo:'num', fijada:false, mod:ahora - 26*H, items:personas },
+    { id:'paris', titulo:'Monumentos y sitios de París', tipo:'num', fijada:false, mod:ahora - 50*H,
+      items:['Torre Eiffel','Museo del Louvre','Catedral de Notre-Dame','Arco de Triunfo',
+             'Basílica del Sacré-Cœur','Campos Elíseos','Panteón de París','Museo de Orsay',
+             'Sainte-Chapelle','Palacio de Versalles','Jardines de Luxemburgo','Centro Pompidou'] },
+    { id:'paises', titulo:'Comidas típicas de los Países Bajos', tipo:'num', fijada:false, mod:ahora - 100*H,
+      items:['Stroopwafels','Bitterballen','Kroket','Haring','Stamppot','Poffertjes','Gouda','Edam',
+             'Erwtensoep','Oliebollen','Pannekoeken','Kibbeling'] }
+  ];
+}
+
+var notas = null;
+try{ notas = JSON.parse(leer(KEY_NOTAS)); }catch(e){}
+if(!Array.isArray(notas) || !notas.length){ notas = notasIniciales(false); persistir(); }
+
+function persistir(){ guardar(KEY_NOTAS, JSON.stringify(notas)); }
+function nota(id){ for(var i=0;i<notas.length;i++) if(notas[i].id === id) return notas[i]; return null; }
+
+var abierta = null, homeY = 0, unaColumna = false;
 try{ history.scrollRestoration = 'manual'; }catch(e){}
 
+/* =====================  INICIO  ===================== */
+function coincide(n, q){
+  if(!q) return true;
+  var txt = [n.titulo || ''];
+  if(n.tipo === 'check') n.items.forEach(function(i){ txt.push(i.t); });
+  else if(n.tipo === 'num') txt = txt.concat(n.items);
+  else txt.push(n.texto || '');
+  return norm(txt.join(' ')).indexOf(norm(q)) >= 0;
+}
+
+function tarjeta(n){
+  var c = crear('div', 'card');
+  if(n.titulo) c.appendChild(crear('div', 'ct', n.titulo));
+  var pv = crear('div', 'pv');
+  if(n.tipo === 'num'){
+    var ol = crear('ol');
+    if(n.id === 'magia' && !CFG.NUMERAR) ol.className = 'sinnum';
+    n.items.slice(0, 14).forEach(function(t){ ol.appendChild(crear('li', '', t)); });
+    pv.appendChild(ol);
+  } else if(n.tipo === 'check'){
+    n.items.slice(0, 14).forEach(function(it){
+      var f = crear('div', 'pf' + (it.d ? ' hecha' : ''));
+      f.appendChild(crear('i'));
+      f.appendChild(crear('span', '', it.t));
+      pv.appendChild(f);
+    });
+  } else {
+    pv.appendChild(crear('div', 'tx', n.texto || ''));
+  }
+  c.appendChild(pv);
+  c.addEventListener('click', function(){ abrir(n.id); });
+  return c;
+}
+
+function pintarGrid(el, lista){
+  el.innerHTML = '';
+  var nc = unaColumna ? 1 : 2, cols = [];
+  for(var i=0;i<nc;i++){ var col = crear('div', 'col'); cols.push(col); el.appendChild(col); }
+  lista.forEach(function(n, i){ cols[i % nc].appendChild(tarjeta(n)); });
+}
+
+function pintarHome(){
+  var q = $('q').value;
+  var vis = notas.filter(function(n){ return coincide(n, q); })
+                 .sort(function(a, b){ return b.mod - a.mod; });
+  var fij = vis.filter(function(n){ return n.fijada; });
+  var otras = vis.filter(function(n){ return !n.fijada; });
+  $('secF').hidden = !fij.length;
+  $('gridF').hidden = !fij.length;
+  $('secO').hidden = !(fij.length && otras.length);
+  pintarGrid($('gridF'), fij);
+  pintarGrid($('gridO'), otras);
+  $('vacio').hidden = vis.length > 0;
+}
+
+$('q').addEventListener('input', pintarHome);
+$('vista').addEventListener('click', function(){ unaColumna = !unaColumna; pintarHome(); });
+
+function nuevaNota(tipo){
+  var n = { id:'n' + Date.now(), titulo:'', tipo:tipo, fijada:false, mod:Date.now(),
+            items: tipo === 'check' ? [chk('')] : [], texto:'' };
+  notas.push(n);
+  persistir();
+  abrir(n.id);
+  try{ (tipo === 'check' ? document.querySelector('#checks .ft') : $('tx')).focus(); }catch(e){}
+}
+$('nTexto').addEventListener('click', function(){ nuevaNota('texto'); });
+$('nCheck').addEventListener('click', function(){ nuevaNota('check'); });
+
+/* =====================  EDITOR  ===================== */
+var ol = $('lista'), ck = $('checks'), tx = $('tx'), tituloEl = $('titulo');
+
+function tocarNota(){ if(abierta){ abierta.mod = Date.now(); persistir(); } }
+
+function pintarEditor(){
+  tituloEl.value = abierta.titulo || '';
+  ol.hidden = true; ck.hidden = true; tx.hidden = true;
+  $('pin').classList.toggle('activo', !!abierta.fijada);
+  if(abierta.tipo === 'num'){
+    ol.hidden = false;
+    ol.classList.toggle('sinnum', abierta.id === 'magia' && !CFG.NUMERAR);
+    ol.innerHTML = '';
+    abierta.items.forEach(function(t){ ol.appendChild(crear('li', '', t)); });
+  } else if(abierta.tipo === 'check'){
+    ck.hidden = false;
+    pintarChecks();
+  } else {
+    tx.hidden = false;
+    tx.textContent = abierta.texto || '';
+  }
+}
+
+function filaCheck(it){
+  var r = crear('div', 'fila' + (it.d ? ' hecha' : ''));
+  var b = crear('button', 'cb'); b.appendChild(crear('i')); b.setAttribute('aria-label', 'Marcar');
+  var t = crear('div', 'ft', it.t); t.setAttribute('contenteditable', 'true'); t.setAttribute('spellcheck', 'false');
+  b.addEventListener('click', function(){
+    it.d = !it.d; r.classList.toggle('hecha', it.d); tocarNota();
+  });
+  t.addEventListener('input', function(){ it.t = t.textContent; tocarNota(); });
+  t.addEventListener('beforeinput', function(e){
+    var items = abierta.items;
+    if(e.inputType === 'insertParagraph'){
+      e.preventDefault();
+      var nuevo = chk('');
+      items.splice(items.indexOf(it) + 1, 0, nuevo);
+      var nr = filaCheck(nuevo);
+      r.parentNode.insertBefore(nr, r.nextSibling);
+      nr.querySelector('.ft').focus();
+      tocarNota();
+    } else if(e.inputType === 'deleteContentBackward' && t.textContent === '' && items.length > 1){
+      e.preventDefault();
+      var prev = r.previousElementSibling;
+      items.splice(items.indexOf(it), 1);
+      r.parentNode.removeChild(r);
+      if(prev && prev.querySelector('.ft')){
+        var f = prev.querySelector('.ft'); f.focus();
+        try{
+          var rg = document.createRange(); rg.selectNodeContents(f); rg.collapse(false);
+          var s = window.getSelection(); s.removeAllRanges(); s.addRange(rg);
+        }catch(err){}
+      }
+      tocarNota();
+    }
+  });
+  r.appendChild(b); r.appendChild(t);
+  return r;
+}
+
+function pintarChecks(){
+  ck.innerHTML = '';
+  abierta.items.forEach(function(it){ ck.appendChild(filaCheck(it)); });
+  var a = crear('div', 'addf'); a.appendChild(crear('span', '', '+')); a.appendChild(crear('div', '', 'Elemento de lista'));
+  a.addEventListener('click', function(){
+    var nuevo = chk('');
+    abierta.items.push(nuevo);
+    var nr = filaCheck(nuevo);
+    ck.insertBefore(nr, a);
+    nr.querySelector('.ft').focus();
+    tocarNota();
+  });
+  ck.appendChild(a);
+}
+
+tituloEl.addEventListener('input', function(){ if(abierta){ abierta.titulo = tituloEl.value; tocarNota(); } });
+ol.addEventListener('input', function(){
+  if(!abierta) return;
+  var arr = [], items = ol.querySelectorAll('li');
+  for(var i=0;i<items.length;i++) arr.push(items[i].textContent);
+  if(arr.length){ abierta.items = arr; tocarNota(); }
+});
+tx.addEventListener('input', function(){
+  if(abierta){ abierta.texto = (tx.innerText !== undefined ? tx.innerText : tx.textContent); tocarNota(); }
+});
+$('pin').addEventListener('click', function(){
+  if(!abierta) return;
+  abierta.fijada = !abierta.fijada;
+  $('pin').classList.toggle('activo', abierta.fijada);
+  persistir();
+});
+
+function vacia(n){
+  if((n.titulo || '').trim()) return false;
+  if(n.tipo === 'check') return n.items.every(function(i){ return !i.t.trim(); });
+  if(n.tipo === 'texto') return !(n.texto || '').trim();
+  return false;
+}
+
+function abrir(id){
+  var n = nota(id); if(!n) return;
+  homeY = window.pageYOffset;
+  abierta = n; tFondo = 0;
+  $('vHome').hidden = true; $('vNota').hidden = false;
+  pintarEditor();
+  history.pushState({ nota:id }, '');
+  window.scrollTo(0, 0);
+}
+
+function cerrar(){
+  if(!abierta) return;
+  desarmar();
+  try{ if(document.activeElement && document.activeElement.blur) document.activeElement.blur(); }catch(e){}
+  var n = abierta;
+  if(/^n\d+$/.test(n.id) && vacia(n)) notas = notas.filter(function(x){ return x !== n; });
+  persistir();
+  abierta = null;
+  $('vNota').hidden = true; $('vHome').hidden = false;
+  pintarHome();
+  window.scrollTo(0, homeY);
+}
+
+$('atras').addEventListener('click', function(){ history.back(); });
+window.addEventListener('popstate', function(){
+  if(armado){                     // atrás con el modo secreto activo = cancelarlo y quedarse en la nota
+    desarmar();
+    history.pushState({ nota: abierta ? abierta.id : null }, '');
+    return;
+  }
+  cerrar();
+});
+
 /* =====================  MODO SECRETO  ===================== */
-var armado = false, digitos = [], buf = null, temp = null, tInact = null;
+var ov = $('ov'), dbgEl = $('dbg');
+var armado = false, digitos = [], buf = null, temp = null, tInact = null, tFondo = 0;
 
 function buzz(p){ if(!CFG.VIBRAR) return; try{ if(navigator.vibrate) navigator.vibrate(p); }catch(e){} }
-function norm(s){ return String(s).toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').trim(); }
 function programar(ms, fn){ clearTimeout(temp); temp = setTimeout(fn, ms); }
 
 function dbg(){
@@ -240,8 +545,10 @@ function tocar(x, y){
 
 function aplicar(v){
   v = Math.max(1, Math.min(100, v));
+  var m = nota('magia');
+  if(!m){ desarmar(); return; }
   var nombre = (leer(KEY_FORZ) || CFG.FORZADO).trim();
-  var l = lista.slice();
+  var l = m.items.slice();
   var idx = -1;
   for(var i=0;i<l.length;i++){ if(norm(l[i]) === norm(nombre)){ idx = i; break; } }
   if(idx >= 0){
@@ -251,9 +558,9 @@ function aplicar(v){
     while(l.length < v) l.push('');
     l[v - 1] = nombre;
   }
-  lista = l;
-  guardar(KEY_LISTA, JSON.stringify(lista));
-  render();
+  m.items = l;            // no se cambia la fecha de edición: la nota no "salta" de sitio en el inicio
+  persistir();
+  if(abierta && abierta.id === 'magia') pintarEditor();
   desarmar();
   window.scrollTo(0, 0);
   buzz(300);
@@ -265,10 +572,9 @@ ov.addEventListener('pointerdown', function(e){
 });
 ov.addEventListener('contextmenu', function(e){ e.preventDefault(); });
 
-/* Activación: bajar del todo y volver a subir hasta arriba del todo */
-var tFondo = 0;
+/* Activación: dentro de la nota "magia", bajar del todo y volver a subir hasta arriba del todo */
 window.addEventListener('scroll', function(){
-  if(armado) return;
+  if(armado || !abierta || abierta.id !== 'magia') return;
   var max = document.documentElement.scrollHeight - window.innerHeight;
   if(max < 200) return;
   var y = window.pageYOffset;
@@ -280,10 +586,10 @@ window.addEventListener('scroll', function(){
   }
 }, { passive: true });
 
-/* =====================  CAMBIAR LA PERSONA FORZADA  =====================
-   Toca 5 veces seguidas (rápido) el botón de los tres puntos de abajo a la derecha. */
+/* =====================  AJUSTES OCULTOS  =====================
+   Dentro de cualquier nota: 5 toques seguidos (rápidos) en el botón ⋮ de abajo a la derecha. */
 var cuenta = 0, tCuenta = 0;
-document.getElementById('mas').addEventListener('click', function(){
+$('mas').addEventListener('click', function(){
   var ahora = Date.now();
   cuenta = (ahora - tCuenta < 1500) ? cuenta + 1 : 1;
   tCuenta = ahora;
@@ -292,19 +598,30 @@ document.getElementById('mas').addEventListener('click', function(){
 
 function configurar(){
   var actual = leer(KEY_FORZ) || CFG.FORZADO;
-  var r = prompt('Persona forzada (escribe RESET para restaurar la lista original):', actual);
+  var r = prompt('Persona forzada.\nRESET = restaurar solo la lista de personas.\nRESET TODO = restaurar todo (notas y persona).', actual);
   if(r === null) return;
   var t = r.trim();
   if(!t) return;
-  if(t.toUpperCase() === 'RESET'){
-    lista = LISTA_BASE.slice();
-    guardar(KEY_LISTA, JSON.stringify(lista));
-    render();
+  var u = t.toUpperCase();
+  if(u === 'RESET TODO'){
+    quitar(KEY_FORZ);
+    var id = abierta ? abierta.id : null;
+    notas = notasIniciales(true);
+    persistir();
+    abierta = id ? nota(id) : null;
+    if(abierta) pintarEditor(); else pintarHome();
+    return;
+  }
+  if(u === 'RESET'){
+    var m = nota('magia');
+    if(m){ m.items = LISTA_BASE.slice(); persistir(); }
+    if(abierta && abierta.id === 'magia') pintarEditor(); else if(!abierta) pintarHome();
     return;
   }
   guardar(KEY_FORZ, t);
 }
 
+pintarHome();
 dbg();
 
 if('serviceWorker' in navigator){
