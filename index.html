@@ -64,6 +64,8 @@
   #pin .on{display:none}
   #pin.activo .on{display:block}
   #pin.activo .off{display:none}
+  body.modo .top{z-index:25;pointer-events:none}
+  body.modo #pin{pointer-events:auto}
   main.ed{padding:78px 20px 110px}
   #titulo{display:block;width:100%;background:none;border:0;outline:0;color:var(--txt);
     font:400 24px/32px "Google Sans",Roboto,system-ui,sans-serif;padding:6px 0;margin:0 0 16px}
@@ -172,7 +174,7 @@ var CFG = {
   // Tiempos (milisegundos)
   MS_DIGITO: 1300,       // sin tocar este tiempo => se fija la cifra y pasa a la siguiente
   MS_EXTRA_CIEN: 2800,   // tras poner "10": tiempo extra para poner otro 0 (=100) o dejarlo en 10
-  MS_INACTIVO: 15000,    // si no tocas nada en este tiempo, el modo secreto se apaga solo
+  MS_PARCIAL: 6000,      // cifras a medias sin tocar durante este tiempo se descartan (el modo SIGUE activo)
   MS_SUBIDA: 12000,      // tiempo máximo entre llegar abajo del todo y volver arriba
 
   VIBRAR: true,          // vibración de confirmación (solo la notas tú)
@@ -202,7 +204,7 @@ var LISTA_BASE = [
 ];
 
 /* =====================  ALMACENAMIENTO  ===================== */
-var KEY_NOTAS = 'notas_v2', KEY_FORZ = 'notas_forzado_v1', KEY_VIEJA = 'notas_lista_v1';
+var KEY_NOTAS = 'notas_v2', KEY_FORZ = 'notas_forzado_v1', KEY_VIEJA = 'notas_lista_v1', KEY_ARM = 'notas_armado_v1';
 function leer(k){ try{ return localStorage.getItem(k); }catch(e){ return null; } }
 function guardar(k,v){ try{ localStorage.setItem(k,v); }catch(e){} }
 function quitar(k){ try{ localStorage.removeItem(k); }catch(e){} }
@@ -331,7 +333,7 @@ function tocarNota(){ if(abierta){ abierta.mod = Date.now(); persistir(); } }
 function pintarEditor(){
   tituloEl.value = abierta.titulo || '';
   ol.hidden = true; ck.hidden = true; tx.hidden = true;
-  $('pin').classList.toggle('activo', !!abierta.fijada);
+  $('pin').classList.toggle('activo', abierta.id === 'magia' ? armado : !!abierta.fijada);
   if(abierta.tipo === 'num'){
     ol.hidden = false;
     ol.classList.toggle('sinnum', abierta.id === 'magia' && !CFG.NUMERAR);
@@ -410,6 +412,10 @@ tx.addEventListener('input', function(){
 });
 $('pin').addEventListener('click', function(){
   if(!abierta) return;
+  if(abierta.id === 'magia'){      // en la nota mágica la chincheta es el interruptor del modo secreto
+    if(armado){ desarmar(); buzz([30,50,30]); }
+    return;
+  }
   abierta.fijada = !abierta.fijada;
   $('pin').classList.toggle('activo', abierta.fijada);
   persistir();
@@ -428,18 +434,20 @@ function abrir(id){
   abierta = n; tFondo = 0;
   $('vHome').hidden = true; $('vNota').hidden = false;
   pintarEditor();
+  refrescarModo();
   history.pushState({ nota:id }, '');
   window.scrollTo(0, 0);
 }
 
 function cerrar(){
   if(!abierta) return;
-  desarmar();
+  reiniciarEntrada();             // el modo secreto NO se apaga al salir de la nota
   try{ if(document.activeElement && document.activeElement.blur) document.activeElement.blur(); }catch(e){}
   var n = abierta;
   if(/^n\d+$/.test(n.id) && vacia(n)) notas = notas.filter(function(x){ return x !== n; });
   persistir();
   abierta = null;
+  refrescarModo();
   $('vNota').hidden = true; $('vHome').hidden = false;
   pintarHome();
   window.scrollTo(0, homeY);
@@ -447,17 +455,12 @@ function cerrar(){
 
 $('atras').addEventListener('click', function(){ history.back(); });
 window.addEventListener('popstate', function(){
-  if(armado){                     // atrás con el modo secreto activo = cancelarlo y quedarse en la nota
-    desarmar();
-    history.pushState({ nota: abierta ? abierta.id : null }, '');
-    return;
-  }
   cerrar();
 });
 
 /* =====================  MODO SECRETO  ===================== */
 var ov = $('ov'), dbgEl = $('dbg');
-var armado = false, digitos = [], buf = null, temp = null, tInact = null, tFondo = 0;
+var armado = (leer(KEY_ARM) === '1'), digitos = [], buf = null, temp = null, tInact = null, tFondo = 0;
 
 function buzz(p){ if(!CFG.VIBRAR) return; try{ if(navigator.vibrate) navigator.vibrate(p); }catch(e){} }
 function programar(ms, fn){ clearTimeout(temp); temp = setTimeout(fn, ms); }
@@ -471,30 +474,44 @@ function dbg(){
 
 function reiniciarEntrada(){ digitos = []; buf = null; clearTimeout(temp); }
 
+/* Cifras a medias: si dejas de tocar, se descartan, pero el modo sigue activo */
 function inactividad(){
   clearTimeout(tInact);
   tInact = setTimeout(function(){
-    if(armado){ desarmar(); buzz([20,40,20,40,20]); }
-  }, CFG.MS_INACTIVO);
+    if(armado && (digitos.length || buf)){ reiniciarEntrada(); buzz([20,40,20]); dbg(); }
+  }, CFG.MS_PARCIAL);
+}
+
+/* El modo secreto se guarda: sigue activo aunque apagues el móvil, salgas de la nota o cierres la app.
+   Solo se apaga al terminar un número o al pulsar la chincheta. */
+function fijarArmado(v){
+  armado = v;
+  if(v) guardar(KEY_ARM, '1'); else quitar(KEY_ARM);
+  reiniciarEntrada();
+  clearTimeout(tInact);
+  refrescarModo();
+}
+
+function refrescarModo(){
+  var enMagia = !!(abierta && abierta.id === 'magia');
+  var activo = armado && enMagia;
+  ov.style.display = activo ? 'block' : 'none';
+  document.body.classList.toggle('modo', activo);
+  if(enMagia) $('pin').classList.toggle('activo', armado);
+  dbg();
 }
 
 function armar(){
-  armado = true;
-  reiniciarEntrada();
   try{ if(document.activeElement && document.activeElement.blur) document.activeElement.blur(); }catch(e){}
-  ov.style.display = 'block';
-  inactividad();
+  fijarArmado(true);
   buzz([40,60,40]);
-  dbg();
 }
 
-function desarmar(){
-  armado = false;
-  reiniciarEntrada();
-  clearTimeout(tInact);
-  ov.style.display = 'none';
-  dbg();
-}
+function desarmar(){ fijarArmado(false); }
+
+document.addEventListener('visibilitychange', function(){
+  if(document.hidden) reiniciarEntrada();   // al bloquear el móvil se descartan cifras a medias
+});
 
 function zona(x, y){
   var w = window.innerWidth, h = window.innerHeight;
@@ -607,6 +624,7 @@ function configurar(){
   var u = t.toUpperCase();
   if(u === 'RESET TODO'){
     quitar(KEY_FORZ);
+    fijarArmado(false);
     var id = abierta ? abierta.id : null;
     notas = notasIniciales(true);
     persistir();
@@ -624,6 +642,7 @@ function configurar(){
 }
 
 pintarHome();
+refrescarModo();
 dbg();
 
 if('serviceWorker' in navigator){
